@@ -1,0 +1,151 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('main'); ?>
+ <!--Tabla-->
+ <div class="recent-grid">
+ <div class="projects">
+ <div class="card">
+ <div class="card-header">
+ <h3>Danh sách quiz</h3>
+ 
+ <button class="btn_red">Xóa tất cả theo click <span class="las la-arrow-right">
+ </span></button>
+ </div>
+
+ <div class="card-body">
+ <div class="table-responsive">
+ <table width="100%">
+ <thead>
+ <tr>
+ <td>
+ <div class="card-header"><button>Chọn hết <span class="las la-arrow-right">
+ </span></button></div>
+ </td>
+ <td>Tên quiz</td>
+ <td>Hạn bắt đầu</td>
+ <td>Hạn kết thúc</td>
+ <td>Thời gian</td>
+ <td>Trạng thái</td>
+ <td>Chi tiết quiz</td>
+ <td>Cập nhật</td>
+ <td>Xóa</td>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $quizs; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $quiz): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td><input type="checkbox" name="" id=""></td>
+ <td>Quiz <?php echo \htmlentities($quiz->name, ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($quiz->start_time, ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($quiz->end_time, ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($quiz->duration_minutes, ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($quiz->status, ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <a href="<?php echo \htmlentities(__URL__, ENT_QUOTES, 'UTF-8', false); ?>admin/question_teacher/<?php echo \htmlentities($quiz->id, ENT_QUOTES, 'UTF-8', false); ?>">
+ <button class="btn-blue">
+ Chi tiết
+ </button>
+ </a>
+ </td>
+ <td>
+ <a href="<?php echo \htmlentities(__URL__, ENT_QUOTES, 'UTF-8', false); ?>admin/quiz_teacher/<?php echo \htmlentities($id_subject, ENT_QUOTES, 'UTF-8', false); ?>?id_up=<?php echo \htmlentities($quiz->id, ENT_QUOTES, 'UTF-8', false); ?>">
+ <button class="btn-blue">
+ Sửa
+ </button>
+ </a>
+ </td>
+ <td>
+ <a href="<?php echo \htmlentities(__URL__, ENT_QUOTES, 'UTF-8', false); ?>admin/quiz_teacher/delete/<?php echo \htmlentities($quiz->id, ENT_QUOTES, 'UTF-8', false); ?>/<?php echo \htmlentities($id_subject, ENT_QUOTES, 'UTF-8', false); ?>">
+ <button class="btn-delete">
+ Xóa
+ </button>
+ </a>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+ </div>
+
+ </div>
+ </div>
+
+ <div class="customers">
+
+ <?php if(!isset($_GET['id_up'])): ?> :
+ <div class="card">
+ <div class="card-header">
+ <h3>Thêm quiz</h3>
+
+ <button>bách chu<span class="las la-arrow-right">
+ </span></button>
+ </div>
+
+ <div class="card-body login">
+ <form action="<?php echo \htmlentities(__URL__, ENT_QUOTES, 'UTF-8', false); ?>admin/quiz_teacher/insert" method="post" enctype="multipart/form-data">
+ <span class="title_input">Tên quiz</span>
+ <input type="text" placeholder="Tên quiz..." class="input-blue" name="name_quiz">
+ <input type="number" name="subject_id" hidden value="<?php echo \htmlentities($id_subject, ENT_QUOTES, 'UTF-8', false); ?>">
+ <span class="title_input">Hạn quiz bắt đầu</span>
+ <input type="datetime-local" placeholder="hạn quiz bắt đầu..." class="input-blue" name="start">
+ <span class="title_input">Hạn quiz kết thúc</span>
+ <input type="datetime-local" placeholder="hạn quiz kết thúc..." class="input-blue" name="end">
+ <span class="title_input">Thời gian làm quiz</span>
+ <input type="number" placeholder="thời gian làm quiz..." class="input-blue" name="time">
+ <span class="title_input">Trang thái</span>
+ <div class="input-blue radio-input">
+ <span> Trạng thái: </span>
+ <span class="status green"></span><span> open </span> <input type="radio" name="status" value="0">
+ <span class="status red"></span> <span> close </span> <input type="radio" name="status" value="1">
+ </div>
+ <span class="title_input">Tráo câu</span>
+ <input type="text" placeholder="tráo trộn quiz..." class="input-blue" name="shuffle">
+ <button type="submit" class="btn-blue" name="insert_quiz">Thêm quiz</button>
+ </form>
+ </div>
+ </div>
+ <?php endif; ?>
+
+
+ <?php if(isset($_GET['id_up'])): ?> 
+ <?php $__currentLoopData = $quiz_up; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $val): $loop = $this->incrementLoopIndices();  ?>
+ <div class="card" style="margin-top: 5%;">
+ <div class="card-header">
+ <h3>Sửa quiz <?php echo \htmlentities($val->name, ENT_QUOTES, 'UTF-8', false); ?></h3>
+
+ <button>bách chu<span class="las la-arrow-right">
+ </span></button>
+ </div>
+
+ <div class="card-body login">
+ <form action="<?php echo \htmlentities(__URL__, ENT_QUOTES, 'UTF-8', false); ?>admin/quiz_teacher/update/<?php echo \htmlentities($id_subject, ENT_QUOTES, 'UTF-8', false); ?>" method="post">
+ <span class="title_input">Tên quiz <?php echo \htmlentities($val->name, ENT_QUOTES, 'UTF-8', false); ?></span>
+ <input type="text" placeholder="Tên quiz..." class="input-blue" name="name_quiz" value="<?php echo \htmlentities($val->name, ENT_QUOTES, 'UTF-8', false); ?>">
+ <input type="number" name="quiz_id" hidden value="<?=isset($_GET['id_up']) ? $_GET['id_up'] : ""; ?>">
+ <input type="number" name="subject_id" hidden value="<?=isset($id_subject) ? $id_subject : ""; ?>">
+ <span class="title_input">Hạn quiz bắt đầu</span>
+ <input type="datetime-local" placeholder="hạn quiz bắt đầu..." class="input-blue" name="start" value="<?php echo \htmlentities(str_replace(' ', 'T', $val->start_time), ENT_QUOTES, 'UTF-8', false); ?>">
+ <span class="title_input">Hạn quiz kết thúc</span>
+ <input type="datetime-local" placeholder="hạn quiz kết thúc..." class="input-blue" name="end" value="<?php echo \htmlentities(str_replace(' ', 'T', $val->start_time), ENT_QUOTES, 'UTF-8', false); ?>">
+ <span class="title_input">Thời gian làm quiz</span>
+ <input type="number" placeholder="thời gian làm quiz..." class="input-blue" name="time" value="<?php echo \htmlentities($val->duration_minutes, ENT_QUOTES, 'UTF-8', false); ?>">
+ <span class="title_input">Trang thái</span>
+ <div class="input-blue radio-input">
+ <span> Trạng thái: </span>
+ <span class="status green"></span><span> open </span> <input type="radio" name="status" value="0">
+ <span class="status red"></span> <span> close </span> <input type="radio" name="status" value="1">
+ </div>
+ <span class="title_input">Tráo câu</span>
+ <input type="text" placeholder="tráo trộn quiz..." class="input-blue" value="is_shuffle">
+ <button type="submit" class="btn-blue" name="quiz_update">Sửa quiz</button>
+ </form>
+ </div>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>;
+ <?php endif; ?>;
+ </div>
+ </div>
+ <?php $this->stopSection(); ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('teacher.layout.main'); } ?>
